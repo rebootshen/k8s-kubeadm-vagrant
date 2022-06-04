@@ -1,0 +1,11 @@
+hostname: rancher.rebootshen.com
+
+ingress:
+  extraAnnotations:
+    'kubernetes.io/ingress.class': nginx
+  tls:
+    source: secret
+
+privateCA: true
+
+replicas: -1

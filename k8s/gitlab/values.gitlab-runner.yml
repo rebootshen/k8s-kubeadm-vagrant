@@ -1,0 +1,38 @@
+
+image: gitlab/gitlab-runner:alpine-v14.8.2
+imagePullPolicy: IfNotPresent
+gitlabUrl: "http://gitlab.rebootshen.com/"
+runnerRegistrationToken: "WPoSE6RYLZJ4jwbZLyt6"
+
+unregisterRunners: true
+terminationGracePeriodSeconds: 3600
+concurrent: 10
+checkInterval: 30
+logLevel: info
+
+rbac:
+  create: true
+
+metrics:
+  enabled: false
+
+runners:
+  config: |
+    [[runners]]
+      [runners.kubernetes]
+        namespace = "{{.Release.Namespace}}"
+        image = "ubuntu:20.04"
+        cpu_limit = "0.3"
+         memory_limit = "0.5Gi"
+        [[runners.kubernetes.volumes.host_path]]
+            name = "docker"
+            mount_path = "/var/run/docker.sock"
+            host_path = "/var/run/docker.sock"
+  privileged: "true"
+  name: kubernetes-runner
+  tags: "kubernetes,runner"
+
+securityContext:
+  runAsUser: 100
+  # runAsGroup: 65533
+  fsGroup: 65533

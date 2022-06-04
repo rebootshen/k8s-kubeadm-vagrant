@@ -1,0 +1,4 @@
+.vagrant
+.env
+backup/
+configs/
